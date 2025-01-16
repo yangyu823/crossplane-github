@@ -1,0 +1,84 @@
+---
+apiVersion: repo.github.upbound.io/v1alpha1
+kind: Repository
+metadata:
+  name: github-crossplane-provider-testing
+spec:
+  forProvider:
+    visibility: public
+    autoInit: true
+    gitignoreTemplate: Terraform
+  providerConfigRef:
+    name: default
+---
+apiVersion: repo.github.upbound.io/v1alpha1
+kind: Branch
+metadata:
+  name: github-crossplane-provider-testing
+spec:
+  forProvider:
+    repositoryRef:
+      name: github-crossplane-provider-testing
+  providerConfigRef:
+    name: default
+---
+apiVersion: repo.github.upbound.io/v1alpha1
+kind: BranchProtection
+metadata:
+  name: github-crossplane-provider-testing-branchprotection
+spec:
+  forProvider:
+    repositoryIdRef:
+      name: github-crossplane-provider-testing
+    pattern: github-*
+    requiredPullRequestReviews:
+      - requiredApprovingReviewCount: 2
+  providerConfigRef:
+    name: default
+---
+apiVersion: repo.github.upbound.io/v1alpha1
+kind: BranchProtectionv3
+metadata:
+  name: github-crossplane-provider-testing-branchprotectionv3
+spec:
+  forProvider:
+    repositoryRef:
+      name: github-crossplane-provider-testing
+    branch: github-crossplane-provider-testing
+    restrictions:
+      - users : ["foo-user"]
+  providerConfigRef:
+    name: default
+---
+apiVersion: repo.github.upbound.io/v1alpha1
+kind: DefaultBranch
+metadata:
+  name: github-crossplane-provider-testing
+spec:
+  forProvider:
+    branchRef:
+      name: github-crossplane-provider-testing
+  providerConfigRef:
+    name: default
+---
+apiVersion: team.github.upbound.io/v1alpha1
+kind: Team
+metadata:
+  name: github-crossplane-provider-test-team
+spec:
+  forProvider:
+    name: github-crossplane-provider-test-team
+  providerConfigRef:
+    name: default
+--- 
+apiVersion: team.github.upbound.io/v1alpha1
+kind: TeamRepository
+metadata:
+  name: github-crossplane-provider-test-team
+spec:
+  forProvider:
+    repositoryRef:
+      name: github-crossplane-provider-testing
+    teamId: github-crossplane-provider-test-team
+    
+
